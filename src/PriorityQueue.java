@@ -11,28 +11,45 @@ import java.util.Set;
 
 public class PriorityQueue {
 	
-	private static class Node {
+	static class Node {
 		String data;
-		int freq;
+		int frequency;
 		Node next;
+		
+		Node() {
+			
+		}
 		
 		Node(String data, Node next, int freq) {
 			this.data = data;
 			this.next = next;
-			this.freq = freq;
+			this.frequency = freq;
 		}
-	}
-	
-	public static void main(String args[]) throws FileNotFoundException {
-		Scanner input = new Scanner(new File("poem.txt"));
-		FrequencyCalculator calc = new FrequencyCalculator();
-		HashMap<String, Integer> map = calc.getFrequencyMap(input);
-		Node head = buildQueue(map);
-		Node temp = head;
-		while(temp != null) {
-			System.out.println(temp.data + ": " + temp.freq);
-			temp = temp.next;
+
+		public String getData() {
+			return data;
 		}
+
+		public void setData(String data) {
+			this.data = data;
+		}
+
+		public int getFrequency() {
+			return frequency;
+		}
+
+		public void setFrequency(int freq) {
+			this.frequency = freq;
+		}
+
+		public Node getNext() {
+			return next;
+		}
+
+		public void setNext(Node next) {
+			this.next = next;
+		}
+				
 	}
 	
 	final static Comparator<Entry<String, Integer>> FREQUENCY_COMPARATOR = new Comparator<Entry<String, Integer>>() { 
@@ -50,7 +67,7 @@ public class PriorityQueue {
 		//create head 
 		Node head = new Node(data, null, freq);
 		Node temp = head;
-		for(int i = 0; i < sortedFrequencies.size(); i++) {
+		for(int i = 1; i < sortedFrequencies.size(); i++) {
 			//create new node
 			data = sortedFrequencies.get(i).getKey();
 			freq = sortedFrequencies.get(i).getValue();
