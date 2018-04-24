@@ -15,6 +15,8 @@ public class HuffmanCodeTree {
 			System.out.println(temp.data + ": " + temp.frequency);
 			temp = temp.next;
 		}
+		System.out.println();
+		System.out.println("Enqueued new node:");
 		buildTree(head);
 	}
 	
@@ -22,30 +24,44 @@ public class HuffmanCodeTree {
 	public static void buildTree(PriorityQueue.Node head) {
 		PriorityQueue.Node temp = head;
 		PriorityQueue.Node next = head.getNext();
+		TreeNode left = new TreeNode(null, null);
+		TreeNode right = new TreeNode(null, null);
 		//while pair is present
 		while(temp != null && next != null) {
 			//create new node
-			TreeNode left = new TreeNode(head.getData(), head.getFrequency());
-			TreeNode right = new TreeNode(next.getData(), next.getFrequency());	
+			left = new TreeNode(temp.getData(), temp.getFrequency());
+			right = new TreeNode(next.getData(), next.getFrequency());	
 			TreeNode parent = new TreeNode(left, right);
-			temp = next;
-			next = next.getNext();
+			temp = next.getNext();
+			next = temp.getNext();
+			//move head
+			head = temp;
 			enqueue(parent, temp, next);
-			while(temp != null) {
-				System.out.println(temp.getData() + ": " + temp.getFrequency());
-				temp = temp.getNext();
-			}
 		}
+		
+		//last node becomes root
+		if(temp != null) {
+			TreeNode root = new TreeNode(left, right);
+		}
+	}
+	
+	private static void printTree(TreeNode root) {
+		
 	}
 	
 	private static void enqueue(TreeNode parent, PriorityQueue.Node target, PriorityQueue.Node pointer) {
 		//enqueue node using target and pointer 
 		//to identify correct position
+		PriorityQueue.Node node = new PriorityQueue.Node();
+		node.setFrequency(parent.getFrequency());
 		int value = parent.getFrequency();
 		while(target.getFrequency() != value) {
 			target = pointer;
-			pointer = pointer.getNext();
+			if(pointer.getNext() != null) {
+				pointer = pointer.getNext();	
+			}
 		}
+		
 		//first occurrence of target value
 		while(pointer.getFrequency() == value) {
 			//move target and pointer
@@ -53,8 +69,6 @@ public class HuffmanCodeTree {
 			pointer = pointer.getNext();
 		}
 		//position found 
-		PriorityQueue.Node node = new PriorityQueue.Node();
-		node.setFrequency(parent.getFrequency());
 		//insert node between target and pointer
 		target.setNext(node);
 		node.setNext(pointer);
