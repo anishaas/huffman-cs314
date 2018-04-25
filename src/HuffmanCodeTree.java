@@ -22,27 +22,23 @@ public class HuffmanCodeTree {
 	
 	//build tree from priority queue
 	public static void buildTree(PriorityQueue.Node head) {
+		//create subtrees from pair of nodes
 		PriorityQueue.Node temp = head;
 		PriorityQueue.Node next = head.getNext();
-		TreeNode left = new TreeNode(null, null);
-		TreeNode right = new TreeNode(null, null);
 		//while pair is present
 		while(temp != null && next != null) {
 			//create new node
-			left = new TreeNode(temp.getData(), temp.getFrequency());
-			right = new TreeNode(next.getData(), next.getFrequency());	
+			TreeNode left = new TreeNode(temp.getData(), temp.getFrequency());
+			TreeNode right = new TreeNode(next.getData(), next.getFrequency());	
 			TreeNode parent = new TreeNode(left, right);
 			temp = next.getNext();
-			next = temp.getNext();
-			//move head
-			head = temp;
+			if(temp != null) {
+				next = temp.getNext();
+			}
+			//enqueue the new node
 			enqueue(parent, temp, next);
 		}
-		
-		//last node becomes root
-		if(temp != null) {
-			TreeNode root = new TreeNode(left, right);
-		}
+		printTree();
 	}
 	
 	private static void printTree(TreeNode root) {
@@ -50,28 +46,29 @@ public class HuffmanCodeTree {
 	}
 	
 	private static void enqueue(TreeNode parent, PriorityQueue.Node target, PriorityQueue.Node pointer) {
-		//enqueue node using target and pointer 
-		//to identify correct position
-		PriorityQueue.Node node = new PriorityQueue.Node();
-		node.setFrequency(parent.getFrequency());
-		int value = parent.getFrequency();
-		while(target.getFrequency() != value) {
-			target = pointer;
-			if(pointer.getNext() != null) {
-				pointer = pointer.getNext();	
+		//check if this is the last pair
+		if(pointer.getNext() != null) {
+			//enqueue node using target and pointer 
+			//to identify correct position
+			PriorityQueue.Node node = new PriorityQueue.Node();
+			node.setFrequency(parent.getFrequency());
+			int value = parent.getFrequency();
+			while(target.getFrequency() < value && pointer.getFrequency() < value) {
+				target = pointer;
+				pointer = pointer.getNext(); 
+				//position found case 1
+				if(pointer.getFrequency() > value) {
+					target.setNext(node);
+					node.setNext(pointer);
+				}
 			}
 		}
-		
-		//first occurrence of target value
-		while(pointer.getFrequency() == value) {
-			//move target and pointer
-			target = pointer;
-			pointer = pointer.getNext();
-		}
-		//position found 
-		//insert node between target and pointer
-		target.setNext(node);
-		node.setNext(pointer);
+		//last pair frequencies form root
+		setRoot(target, pointer);
 	}
-
+	
+	private static TreeNode setRoot(TreeNode left, TreeNode right) {
+		TreeNode root = new TreeNode(left, right);
+		return root;		
+	}
 }
