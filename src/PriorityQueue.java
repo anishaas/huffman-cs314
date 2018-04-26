@@ -33,25 +33,39 @@ public class PriorityQueue {
 		return o1.getValue().compareTo(o2.getValue());
 	} };
 	
+	public int getLength() {
+		return this.getQueue().size();
+	}
+	
 	public TreeNode dequeueTreeNode() {
-		return this.queue.get(0);
+		return this.queue.remove(0);
 	}
 	
 	public void enqueueTreeNode(TreeNode node) {
-		TreeNode prev = queue.get(0);
-		TreeNode next = queue.get(1);
 		int value = node.getFrequency();
+		TreeNode prev = queue.get(0);
+		TreeNode next = null;
+		if(queue.size() > 1) { 
+			next = queue.get(1);
+		}
 		
 		if(prev == null) {
 			queue.add(node);
 		}
 		
-		if(next == null) {
+		if(queue.size() == 1) {
+			System.out.println("one node reached");
 			if(value < prev.getFrequency()) {
-				queue.add(1, prev);
 				queue.add(0, node);
+				return;
 			} else {
+				System.out.println("else reached");
+				System.out.println("before add");
+				System.out.println(queue.size());
 				queue.add(1, node);
+				System.out.println("after add");
+				System.out.println(queue.size());
+				return;
 			}
 		}
 		

@@ -16,22 +16,29 @@ public class HuffmanCodeTree {
 			System.out.println(n.getValue() + ": " + n.getFrequency());
 		}
 		System.out.println();
-		System.out.println("enqeued node: ");
+		System.out.println("tree root: ");
 		HuffmanCodeTree t = new HuffmanCodeTree();
-		PriorityQueue queue1 = t.buildTree(queue);
-		for(TreeNode n : queue1.getQueue()) {
-			System.out.println(n.getValue() + ": " + n.getFrequency());
-		}
+		TreeNode root = t.buildTree(queue);
+		System.out.println(root.getFrequency());
 	}
 	
 	//build tree from priority queue
-	public PriorityQueue buildTree(PriorityQueue queue) {
+	public TreeNode buildTree(PriorityQueue queue) {
+		TreeNode root = null;
 		if(queue != null) {
-			TreeNode n1 = queue.dequeueTreeNode();
-			TreeNode n2 = queue.dequeueTreeNode();
-			TreeNode parent = new TreeNode(n1, n2);
-			queue.enqueueTreeNode(parent);
+			while(queue.getLength() > 2) {
+				TreeNode n1 = queue.dequeueTreeNode();
+				TreeNode n2 = queue.dequeueTreeNode();
+				TreeNode parent = new TreeNode(n1, n2);
+				queue.enqueueTreeNode(parent);
+				System.out.println(queue.getLength());
+			}
+			
+			//final two trees
+			TreeNode left = queue.dequeueTreeNode();
+			TreeNode right = queue.dequeueTreeNode();
+			root = new TreeNode(left, right);
 		}
-		return queue;
+		return root;
 	}
 }
