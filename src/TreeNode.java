@@ -33,6 +33,10 @@ public class TreeNode implements Comparable<TreeNode> {
     // The right child of this node. Equals null if no left child.
     private TreeNode right;
 
+	public TreeNode() {
+	    	
+	}
+    
     /**
      * construct leaf node (null children)
      * 
