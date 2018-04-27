@@ -31,7 +31,6 @@ public class HuffmanCodeTree {
 				TreeNode n2 = queue.dequeueTreeNode();
 				TreeNode parent = new TreeNode(n1, n2);
 				queue.enqueueTreeNode(parent);
-				System.out.println(queue.getLength());
 			}
 			
 			//final two trees

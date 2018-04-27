@@ -54,17 +54,11 @@ public class PriorityQueue {
 		}
 		
 		if(queue.size() == 1) {
-			System.out.println("one node reached");
 			if(value < prev.getFrequency()) {
 				queue.add(0, node);
 				return;
 			} else {
-				System.out.println("else reached");
-				System.out.println("before add");
-				System.out.println(queue.size());
 				queue.add(1, node);
-				System.out.println("after add");
-				System.out.println(queue.size());
 				return;
 			}
 		}
@@ -107,7 +101,7 @@ public class PriorityQueue {
 		ArrayList<TreeNode> queueArray = new ArrayList<TreeNode>();
 		String data = sortedFrequencies.get(0).getKey();
 		int freq = sortedFrequencies.get(0).getValue();
-		for(int i = 1; i < sortedFrequencies.size(); i++) {
+		for(int i = 0; i < sortedFrequencies.size(); i++) {
 			//create new node
 			data = sortedFrequencies.get(i).getKey();
 			freq = sortedFrequencies.get(i).getValue();
