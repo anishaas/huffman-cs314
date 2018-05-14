@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class HuffmanCodeTree {
@@ -15,11 +17,42 @@ public class HuffmanCodeTree {
 		for(TreeNode n : queue.getQueue()) {
 			System.out.println(n.getValue() + ": " + n.getFrequency());
 		}
-		System.out.println();
-		System.out.println("tree root: ");
 		HuffmanCodeTree t = new HuffmanCodeTree();
 		TreeNode root = t.buildTree(queue);
-		System.out.println(root.getFrequency());
+		System.out.println(" ");
+		System.out.println("print tree");
+		t.printTree(root);
+	}
+	
+	public void printTree(TreeNode root) {
+		if(root==null) 
+			return;
+		Queue<TreeNode> q = new LinkedList<TreeNode>();
+		q.add(root);
+		//use null as delimiter
+		q.add(null);
+		while(!q.isEmpty()) {
+			//want to retrieve null, use poll 
+			root = q.poll();
+			if(root != null) {
+				//print root
+				System.out.print(root.getValue() + ":" + " " + root.getFrequency() + "    ");
+				//add left and right to queue
+				if(root.getLeft() != null) {
+					q.add(root.getLeft());
+				}
+				if(root.getRight() != null) {
+					q.add(root.getRight());
+				}
+				//reached delimiter in queue, print new line
+			} else {
+				if(!q.isEmpty()) {
+					System.out.println();
+					//add null back at the end of the queue
+					q.add(null);
+				}
+			}
+		}
 	}
 	
 	//build tree from priority queue

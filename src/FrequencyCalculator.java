@@ -15,12 +15,16 @@ public class FrequencyCalculator {
 	}
 	
 	private static HashMap<String, Integer> tallyLine(String line, HashMap<String, Integer> map) {
+		int spaces = 0;
 		@SuppressWarnings("resource")
 		Scanner words = new Scanner(line);
 		while(words.hasNext()) {
+			spaces++;
 			String current = words.next();
 			tallyWord(current, map);
 		}		
+		spaces = spaces - 1;
+		map.put("space", spaces);
 		return map;
 	}
 	
