@@ -42,32 +42,46 @@ public class PriorityQueue {
 	}
 	
 	public void enqueueTreeNode(TreeNode node) {
-		int value = node.getFrequency();
-		TreeNode prev = queue.get(0);
-		TreeNode next = null;
-		
-		if(queue.size() == 1) {
-			if(value < prev.getFrequency()) {
-				queue.add(0, node);
-				return;
-			} else {
-				queue.add(1, node);
-				return;
-			}
-		}
+        int value = node.getFrequency();
+        TreeNode prev = queue.get(0);
+        TreeNode next = null;
 
-		//more than 1 node in queue
-        if(queue.size() > 1) {
+        //more than 1 node in queue
+        if (queue.size() > 1) {
             next = queue.get(1);
         }
 
-		int prevFreq = prev.getFrequency();
-		int nextFreq = next.getFrequency();
-		int prevPos = 0;
-		int nextPos = 1;
-			
-		while(prevFreq <= value && nextFreq <= value && nextPos + 1 < queue.size()) {
-		    //changing position
+        if (queue.size() == 1) {
+            if (value > queue.get(0).getFrequency()) {
+                queue.add(node);
+            } else {
+                TreeNode temp = new TreeNode();
+                queue.add(temp);
+                queue.set(1, queue.get(0));
+                queue.set(0, node);
+            }
+        } else if(queue.size() == 2) {
+            TreeNode temp = new TreeNode();
+            queue.add(temp);
+            for(int i = 0; i < 2; i++) {
+                if(value < queue.get(i).getFrequency()) {
+                    //shift
+                    for(int j = 1; j > i; j--) {
+                        queue.set(j + 1, queue.get(j));
+                    }
+                    queue.set(i, node);
+                }
+                queue.set(2, node);
+            }
+        } else {
+
+            int prevFreq = prev.getFrequency();
+            int nextFreq = next.getFrequency();
+            int prevPos = 0;
+            int nextPos = 1;
+
+            while (prevFreq <= value && nextFreq <= value && nextPos + 1 < queue.size()) {
+                //changing position
                 prevPos++;
                 nextPos++;
                 //grabbing nodes at updated indices
@@ -85,18 +99,19 @@ public class PriorityQueue {
                     nextFreq = next.getFrequency();
                 }
 
+            }
+            //next should be > value
+            //shift all right elements
+            TreeNode temp = new TreeNode();
+            int length = queue.size();
+            queue.add(temp);
+            for (int j = length - 1; j >= nextPos; j--) {
+                queue.set(j + 1, queue.get(j));
+            }
+            //insert node
+            queue.set(prevPos + 1, node);
         }
-		//next should be > value
-		//shift all right elements
-		int length = queue.size();
-		TreeNode temp = new TreeNode();
-		queue.add(temp);
-		for(int j = nextPos; j < length; j++) {
-			queue.set(j+1, queue.get(j));
-		}
-		//insert node 
-		queue.set(prevPos + 1, node);
-	}
+    }
 
 	public PriorityQueue buildQueue(HashMap<String, Integer> frequencyMap) {
 		ArrayList<Entry<String, Integer>> sortedFrequencies = sortCharsByFrequency(frequencyMap); 
