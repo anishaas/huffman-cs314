@@ -30,32 +30,20 @@ public class Encoder {
 
     private static HashMap<String, String> buildCodes(TreeNode root, HashMap<String, String> codes) {
         String code = "";
-        buildLeftCodes(root, codes, code);
+        getChildCodes(root, codes, code);
         return codes;
     }
 
-    private static HashMap<String, String> buildLeftCodes(TreeNode node, HashMap<String, String> codes, String code) {
+    private static HashMap<String, String> getChildCodes(TreeNode node, HashMap<String, String> codes, String code) {
 
         if(node != null) {
             if(node.getValue() != null) {
                 codes.put(node.getValue(), code);
             }
-            code += "0";
-            buildLeftCodes(node.getLeft(), codes, code);
-            buildRightCodes(node.getRight(), codes, code);
-        }
-        return codes;
-    }
-
-    private static HashMap<String, String> buildRightCodes(TreeNode node, HashMap<String, String> codes,String code) {
-
-        if(node != null) {
-            if(node.getValue() != null) {
-                codes.put(node.getValue(), code);
-            }
-            code += "1";
-            buildLeftCodes(node.getLeft(), codes, code);
-            buildRightCodes(node.getRight(), codes, code);
+            String left = code + "0";
+            String right = code + "1";
+            getChildCodes(node.getLeft(), codes, left);
+            getChildCodes(node.getRight(), codes, right);
         }
         return codes;
     }
