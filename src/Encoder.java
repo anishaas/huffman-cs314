@@ -24,36 +24,40 @@ public class Encoder {
 
     public HashMap<String, String> encodeFile(TreeNode root) {
         HashMap<String, String> codes = new HashMap<>();
+        buildCodes(root, codes);
+        return codes;
+    }
+
+    private static HashMap<String, String> buildCodes(TreeNode root, HashMap<String, String> codes) {
         String code = "";
         buildLeftCodes(root, codes, code);
-        buildRightCodes(root, codes, code);
         return codes;
     }
 
     private static HashMap<String, String> buildLeftCodes(TreeNode node, HashMap<String, String> codes, String code) {
 
-        if(node == null) {
-            return codes;
-        } else {
+        if(node != null) {
             if(node.getValue() != null) {
                 codes.put(node.getValue(), code);
             }
             code += "0";
-            return buildLeftCodes(node.getLeft(), codes, code);
+            buildLeftCodes(node.getLeft(), codes, code);
+            buildRightCodes(node.getRight(), codes, code);
         }
+        return codes;
     }
 
     private static HashMap<String, String> buildRightCodes(TreeNode node, HashMap<String, String> codes,String code) {
 
-        if(node == null) {
-            return codes;
-        } else {
+        if(node != null) {
             if(node.getValue() != null) {
                 codes.put(node.getValue(), code);
             }
             code += "1";
-            return buildRightCodes(node.getRight(), codes, code);
+            buildLeftCodes(node.getLeft(), codes, code);
+            buildRightCodes(node.getRight(), codes, code);
         }
+        return codes;
     }
 
 }
