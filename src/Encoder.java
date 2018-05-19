@@ -19,10 +19,14 @@ public class Encoder {
         t.printTree(root);
 
         Encoder e = new Encoder();
-        e.encodeFile(root);
+        e.buildKey(root);
     }
 
-    public HashMap<String, String> encodeFile(TreeNode root) {
+    public static void encodeFile(TreeNode root) {
+        buildKey(root);
+    }
+
+    private static HashMap<String, String> buildKey(TreeNode root) {
         HashMap<String, String> codes = new HashMap<>();
         buildCodes(root, codes);
         return codes;
