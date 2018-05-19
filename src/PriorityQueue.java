@@ -111,15 +111,21 @@ public class PriorityQueue {
 
             }
             //next should be > value
-            //shift all right elements
             TreeNode temp = new TreeNode();
             int length = queue.size();
             queue.add(temp);
-            for (int j = length - 1; j >= nextPos; j--) {
-                queue.set(j + 1, queue.get(j));
+            int shiftIndex = nextPos;
+            //case next == value
+            if (queue.get(nextPos).getFrequency() == value) {
+                queue.set(length, node);
+            } else {
+                //shift all right elements
+                for (int j = length - 1; j >= shiftIndex; j--) {
+                    queue.set(j + 1, queue.get(j));
+                }
+                //insert node
+                queue.set(prevPos + 1, node);
             }
-            //insert node
-            queue.set(prevPos + 1, node);
         }
     }
 
