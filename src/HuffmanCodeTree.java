@@ -9,19 +9,7 @@ import java.util.Scanner;
 public class HuffmanCodeTree {
 	
 	public static void main(String args[]) throws FileNotFoundException {
-		Scanner input = new Scanner(new File("poem.txt"));
-		FrequencyCalculator calc = new FrequencyCalculator();
-		HashMap<String, Integer> map = calc.getFrequencyMap(input);
-		PriorityQueue q = new PriorityQueue();
-		PriorityQueue queue = q.buildQueue(map);
-		for(TreeNode n : queue.getQueue()) {
-			System.out.println(n.getValue() + ": " + n.getFrequency());
-		}
-		HuffmanCodeTree t = new HuffmanCodeTree();
-		TreeNode root = t.buildTree(queue);
-		System.out.println(" ");
-		System.out.println("print tree");
-		t.printTree(root);
+
 	}
 	
 	public void printTree(TreeNode root) {
