@@ -26,11 +26,21 @@ public class PriorityQueue {
 		return FREQUENCY_COMPARATOR;
 	}
 
-	final static Comparator<Entry<String, Integer>> FREQUENCY_COMPARATOR = new Comparator<Entry<String, Integer>>() { 
+	final static Comparator<Entry<String, Integer>> FREQUENCY_COMPARATOR = new Comparator<Entry<String, Integer>>() {
 
 	@Override
 	public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
-		return o1.getValue().compareTo(o2.getValue());
+	    if(o1.getValue() < o2.getValue()) {
+            return -1;
+        } else if (o1.getValue() > o2.getValue()) {
+            return 1;
+        } else if(o1.getKey().charAt(0) < o2.getKey().charAt(0)) {
+            return -1;
+        } else if(o1.getKey().charAt(0) > o2.getKey().charAt(0)) {
+	        return 1;
+        } else {
+	        return 0;
+        }
 	} };
 	
 	public int getLength() {
@@ -114,7 +124,7 @@ public class PriorityQueue {
     }
 
 	public PriorityQueue buildQueue(HashMap<String, Integer> frequencyMap) {
-		ArrayList<Entry<String, Integer>> sortedFrequencies = sortCharsByFrequency(frequencyMap); 
+		ArrayList<Entry<String, Integer>> sortedFrequencies = sortCharsByFrequency(frequencyMap);
 		ArrayList<TreeNode> queueArray = new ArrayList<TreeNode>();
 		String data = sortedFrequencies.get(0).getKey();
 		int freq = sortedFrequencies.get(0).getValue();
@@ -129,7 +139,7 @@ public class PriorityQueue {
 		queue.setQueue(queueArray);
 		return queue;
 	}
-	
+
 	private ArrayList<Entry<String, Integer>> sortCharsByFrequency(HashMap<String, Integer> frequencyMap) {
 		Set vals = frequencyMap.entrySet();
 		//convert set to list
